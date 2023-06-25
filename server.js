@@ -1,5 +1,6 @@
 import express from "express";
 import config from "config";
+import topics from "./data/topics.json" assert { type: "json" };
 
 const port = config.get("server.port");
 const host = config.get("server.host");
@@ -8,6 +9,10 @@ const app = express();
 
 app.use(express.static("./public"));
 app.use("/", express.static("./public/html"));
+
+app.get("/topics", (req, res) => {
+  res.json(topics);
+});
 
 // return page not found error
 app.use((req, res) => {
