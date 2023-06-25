@@ -1,2 +1,3 @@
 # node_exercises
-This repository is created for small task developed in Node for demonstartion purpose
+
+This repository is created to demonstrate node http module.
