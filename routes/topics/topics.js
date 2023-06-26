@@ -8,13 +8,12 @@ router.get("/", async (req, res, next) => {
   try {
     const topicService = new TopicService(req.config.dataFilePath);
     res.json(await topicService.getTopics());
-    return next();
   } catch (err) {
     return next(err);
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", async (req, res, next) => {
   try {
     const topicService = new TopicService(req.config.dataFilePath);
     const data = await topicService.addTopics({
@@ -22,7 +21,9 @@ router.post("/", async (req, res) => {
       topicName: req.body.topicName,
     });
     res.json(data);
-  } catch (err) {}
+  } catch (err) {
+    return next(err);
+  }
 });
 
 module.exports = router;

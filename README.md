@@ -9,5 +9,6 @@ Features:
 4. Jest is used for testing and code coverage.
 5. Static files are served for home page and page not found.
 6. Use of private method in service class.
+7. separation of application and server code.
 
 In this branch api are created using route. body parser is used to convert request data into objects before any update operation.
