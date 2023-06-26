@@ -1,28 +1,36 @@
-import express from "express";
-import config from "config";
-import topics from "./data/topics.json" assert { type: "json" };
+const express = require("express");
+require("dotenv").config();
 
-const port = config.get("server.port");
-const host = config.get("server.host");
+const indexRoute = require("./routes/index");
+const topicRoutes = require("./routes/topics/topics");
+
+const config = require(process.env.CONFIG_PATH);
 
 const app = express();
 
-app.use(express.static("./public"));
-app.use("/", express.static("./public/html"));
-
-app.get("/topics", (req, res) => {
-  res.json(topics);
+// pass the configuration to all routes using middleware
+app.use((req, res, next) => {
+  req.config = config;
+  next();
 });
 
-// return page not found error
-app.use((req, res) => {
-  res.sendFile("pagenotfound.html", { root: "./public/html" });
-});
+// After below line body parser is no longer required.
+// we can use express inbuilt feature.
+app.use(express.json());
 
-const server = app.listen(port, host, (err) => {
+// Register the routes here
+app.use("/topics", topicRoutes);
+// index route is defined in the last purposely as in that file
+// middleware is defined which return page not found if request
+// doesn't match with any argument.
+app.use("/", indexRoute);
+
+const server = app.listen(config.server.port, config.server.host, (err) => {
   if (err) {
     console.log(err);
     process.exit(1);
   }
-  console.log(`Server is running on ${host}: ${server.address().port}`);
+  console.log(
+    `Server is running on ${config.server.port}: ${server.address().port}`
+  );
 });
