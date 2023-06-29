@@ -1,5 +1,5 @@
-const express = require("express");
-const TopicService = require("./topicService");
+import express from "express";
+import TopicService from "./topicService.js";
 
 const topicService = new TopicService();
 
@@ -44,4 +44,4 @@ router.delete("/", async (req, res, next) => {
   }
 });
 
-module.exports = router;
+export default router;

@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "This project is used to demonstrate mongodb integration",
   "main": "src/server.js",
+  "type": "module",
   "scripts": {
     "test": "jest test/ --coverage",
     "start": "nodemon ./src/server.js --exec babel-node"

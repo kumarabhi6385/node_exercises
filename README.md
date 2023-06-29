@@ -28,3 +28,6 @@ Add new file .babelrc and paste below content:
 "@babel/preset-env"
 ]
 }
+
+update npm start to:
+nodemon ./src/server.js --exec babel-node

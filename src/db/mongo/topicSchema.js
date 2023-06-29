@@ -1,5 +1,5 @@
-const { ObjectId } = require("bson");
-const { Schema } = require("mongoose");
+import { ObjectId } from "bson";
+import { Schema } from "mongoose";
 
 const TopicSchema = new Schema({
   category_id: {
@@ -9,4 +9,4 @@ const TopicSchema = new Schema({
   queries: [String],
 });
 
-module.exports = TopicSchema;
+export default TopicSchema;

@@ -1,6 +1,7 @@
-const mongoose = require("mongoose");
-const nodeSchema = require("../db/mongo/nodeSchema");
-const { ObjectId } = require("bson");
+import mongoose from "mongoose";
+import nodeSchema from "../db/mongo/nodeSchema.js";
+import { ObjectId } from "bson";
+
 const Category = mongoose.model("Category", nodeSchema);
 
 class CategoryService {
@@ -58,4 +59,4 @@ class CategoryService {
   }
 }
 
-module.exports = CategoryService;
+export default CategoryService;

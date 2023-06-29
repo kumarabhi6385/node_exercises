@@ -1,5 +1,5 @@
-const express = require("express");
-const CategoryService = require("./categoryService");
+import express from "express";
+import CategoryService from "./categoryService.js";
 
 const categoryService = new CategoryService();
 
@@ -46,4 +46,4 @@ router.put("/", async (req, res, next) => {
   }
 });
 
-module.exports = router;
+export default router;

@@ -1,6 +1,7 @@
-const mongoose = require("mongoose");
-const topicSchema = require("../db/mongo/topicSchema");
-const { ObjectId } = require("bson");
+import mongoose from "mongoose";
+import topicSchema from "../db/mongo/topicSchema.js";
+import { ObjectId } from "bson";
+
 const Topic = mongoose.model("Topic", topicSchema);
 
 class Topicservice {
@@ -36,4 +37,4 @@ class Topicservice {
   }
 }
 
-module.exports = Topicservice;
+export default Topicservice;

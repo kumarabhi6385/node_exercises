@@ -1,7 +1,12 @@
-const express = require("express");
-const path = require("path");
-const categoryRoute = require("./category/categoryRoute");
-const topicRoute = require("./topic/topicRoute");
+import express from "express";
+import path from "path";
+import categoryRoute from "./category/categoryRoute.js";
+import topicRoute from "./topic/topicRoute.js";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+
+const __dirname = path.dirname(__filename);
 
 const app = express();
 
@@ -35,4 +40,4 @@ app.use((err, req, res, next) => {
   return next();
 });
 
-module.exports = app;
+export default app;

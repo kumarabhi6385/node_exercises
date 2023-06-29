@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const nodeSchema = new mongoose.Schema({
   name: {
@@ -16,4 +16,4 @@ const nodeSchema = new mongoose.Schema({
   },
 });
 
-module.exports = nodeSchema;
+export default nodeSchema;

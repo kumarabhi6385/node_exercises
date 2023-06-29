@@ -1,5 +1,5 @@
-const config = require("../config");
-const mongoose = require("mongoose");
+import config from "../config";
+import mongoose from "mongoose";
 
 describe("Mongo DB Conenction", () => {
   test("Mong DB Connection should be done successfully", async () => {
