@@ -1,12 +1,9 @@
 const express = require("express");
 const path = require("path");
 const categoryRoute = require("./category/categoryRoute");
-//require("dotenv").config({ path: path.resolve(__dirname, "../.env") });
-//const config = require(process.env.CONFIG_PATH);
+const topicRoute = require("./topic/topicRoute");
 
 const app = express();
-
-//app.config = config;
 
 // After below line body parser is no longer required.
 // we can use express inbuilt feature.
@@ -19,6 +16,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/category", categoryRoute);
+app.use("/topic", topicRoute);
 
 // return page not found error
 app.use((req, res) => {
