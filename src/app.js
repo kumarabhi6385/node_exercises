@@ -1,7 +1,6 @@
 const express = require("express");
 const path = require("path");
-const topicRoute = require("./topics/topicRoute");
-const categoryRoute = require("./topics/categoryRoute");
+const categoryRoute = require("./category/categoryRoute");
 //require("dotenv").config({ path: path.resolve(__dirname, "../.env") });
 //const config = require(process.env.CONFIG_PATH);
 
@@ -19,7 +18,6 @@ app.get("/", (req, res) => {
   res.sendFile(path.resolve(__dirname, "./client/html/index.html"));
 });
 
-app.use("/topics", topicRoute);
 app.use("/category", categoryRoute);
 
 // return page not found error
