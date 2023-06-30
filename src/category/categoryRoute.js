@@ -1,49 +1,54 @@
-import express from "express";
-import CategoryService from "./categoryService.js";
+import CategoryController from "./categoryController.js";
 
-const categoryService = new CategoryService();
+const routes = (app) => {
+  const controller = new CategoryController();
 
-const router = express.Router();
+  app
+    .route("/category")
+    // This API is used to get all categories
+    .get(async (req, res) => {
+      const data = await controller.getCategories();
+      res.json(data);
+    })
+    // This API is used to delete category
+    .delete(async (req, res, next) => {
+      try {
+        const id = req.body._id;
+        await controller.deleteCategoryandDescendants(id);
+        res.json(id);
+      } catch (err) {
+        return next(err);
+      }
+    })
+    // This API is used to create category
+    .post(async (req, res, next) => {
+      try {
+        const category = req.body;
+        const data = await controller.createCategory(category);
+        res.json(data);
+      } catch (err) {
+        return next(err);
+      }
+    })
+    // This API is used to update category name
+    .put(async (req, res, next) => {
+      try {
+        const category = req.body;
+        const node = await controller.updateCategory(category);
+        res.json(node);
+      } catch (err) {
+        return next(err);
+      }
+    });
 
-router.get("/", async (req, res) => {
-  const data = await categoryService.getCategories();
-  res.json(data);
-});
+  app
+    .route("/category/:path")
+    // This API is used to get category and its sub categories
+    .get(async (req, res) => {
+      const path = req.params.path;
+      const data = await controller.getCategory(path);
+      res.json(data);
+    });
+};
 
-router.get("/:path", async (req, res) => {
-  const path = req.params.path;
-  const data = await categoryService.getCategory(path);
-  res.json(data);
-});
-
-router.delete("/", async (req, res, next) => {
-  try {
-    const id = req.body._id;
-    await categoryService.deleteCategoryandDescendants(id);
-    res.json(id);
-  } catch (err) {
-    return next(err);
-  }
-});
-
-router.post("/", async (req, res, next) => {
-  try {
-    const category = req.body;
-    const data = await categoryService.createCategory(category);
-    res.json(data);
-  } catch (err) {
-    return next(err);
-  }
-});
-
-router.put("/", async (req, res, next) => {
-  try {
-    const category = req.body;
-    const node = await categoryService.updateCategory(category);
-    res.json(node);
-  } catch (err) {
-    return next(err);
-  }
-});
-
-export default router;
+export default routes;

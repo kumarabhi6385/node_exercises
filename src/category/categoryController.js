@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
-import nodeSchema from "../db/mongo/nodeSchema.js";
+import nodeSchema from "./nodeSchema.js";
 import { ObjectId } from "bson";
 
 const Category = mongoose.model("Category", nodeSchema);
 
-class CategoryService {
+class CategoryController {
   constructor(url) {}
   async getCategories() {
     try {
@@ -59,4 +59,4 @@ class CategoryService {
   }
 }
 
-export default CategoryService;
+export default CategoryController;

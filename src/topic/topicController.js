@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
-import topicSchema from "../db/mongo/topicSchema.js";
+import topicSchema from "./topicSchema.js";
 import { ObjectId } from "bson";
 
 const Topic = mongoose.model("Topic", topicSchema);
 
-class Topicservice {
+class TopicController {
   constructor() {}
   async addOrUpdateTopic(item) {
     const category_id = new ObjectId(item.category_id);
@@ -37,4 +37,4 @@ class Topicservice {
   }
 }
 
-export default Topicservice;
+export default TopicController;

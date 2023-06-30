@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "jest test/ --coverage",
-    "start": "nodemon ./src/server.js --exec babel-node"
+    "start": "nodemon ./src/server.js"
   },
   "author": "Abhishek",
   "license": "ISC",

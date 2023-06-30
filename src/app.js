@@ -14,18 +14,21 @@ const app = express();
 // we can use express inbuilt feature.
 app.use(express.json());
 
-app.use(express.static(path.resolve(__dirname, "./client")));
+app.use(express.static(path.resolve(__dirname, "../client")));
 
 app.get("/", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "./client/html/index.html"));
+  res.sendFile(path.resolve(__dirname, "../client/html/index.html"));
 });
 
-app.use("/category", categoryRoute);
-app.use("/topic", topicRoute);
+// Register module routes here
+categoryRoute(app);
+topicRoute(app);
 
 // return page not found error
 app.use((req, res) => {
-  res.status(404).sendFile(path.resolve(__dirname, "./client/html/error.html"));
+  res
+    .status(404)
+    .sendFile(path.resolve(__dirname, "../client/html/error.html"));
 });
 
 // return page not found error
@@ -35,7 +38,7 @@ app.use((err, req, res, next) => {
     console.log(err);
     res
       .status(500)
-      .sendFile(path.resolve(__dirname, "./client/html/error.html"));
+      .sendFile(path.resolve(__dirname, "../client/html/error.html"));
   }
   return next();
 });
