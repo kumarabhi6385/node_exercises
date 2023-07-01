@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const nodeSchema = new mongoose.Schema({
+export const CategorySchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -15,5 +15,3 @@ const nodeSchema = new mongoose.Schema({
     default: null,
   },
 });
-
-export default nodeSchema;

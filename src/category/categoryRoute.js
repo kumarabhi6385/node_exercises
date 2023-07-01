@@ -1,54 +1,24 @@
 import CategoryController from "./categoryController.js";
+// This is middleware used for authentication and authorization
+import { loginRequired } from "../middleware/authorization.js";
 
 const routes = (app) => {
   const controller = new CategoryController();
-
   app
     .route("/category")
     // This API is used to get all categories
-    .get(async (req, res) => {
-      const data = await controller.getCategories();
-      res.json(data);
-    })
+    .get(loginRequired, controller.getCategories)
     // This API is used to delete category
-    .delete(async (req, res, next) => {
-      try {
-        const id = req.body._id;
-        await controller.deleteCategoryandDescendants(id);
-        res.json(id);
-      } catch (err) {
-        return next(err);
-      }
-    })
+    .delete(loginRequired, controller.deleteCategoryandDescendants)
     // This API is used to create category
-    .post(async (req, res, next) => {
-      try {
-        const category = req.body;
-        const data = await controller.createCategory(category);
-        res.json(data);
-      } catch (err) {
-        return next(err);
-      }
-    })
-    // This API is used to update category name
-    .put(async (req, res, next) => {
-      try {
-        const category = req.body;
-        const node = await controller.updateCategory(category);
-        res.json(node);
-      } catch (err) {
-        return next(err);
-      }
-    });
+    .post(loginRequired, controller.createCategory);
 
   app
-    .route("/category/:path")
+    .route("/category/:id")
     // This API is used to get category and its sub categories
-    .get(async (req, res) => {
-      const path = req.params.path;
-      const data = await controller.getCategory(path);
-      res.json(data);
-    });
+    .get(loginRequired, controller.getCategory)
+    // This API is used to update category name
+    .put(loginRequired, controller.updateCategory);
 };
 
 export default routes;

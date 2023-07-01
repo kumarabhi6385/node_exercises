@@ -1,44 +1,21 @@
 import TopicController from "./topicController.js";
+// This is middleware used for authentication and authorization
+import { loginRequired } from "../middleware/authorization.js";
 
 const routes = (app) => {
   const controller = new TopicController();
   app
     .route("/topic")
-    .get(async (req, res, next) => {
-      try {
-        const data = await controller.getTopics();
-        res.json(data);
-      } catch (err) {
-        return next(err);
-      }
-    })
-    .post(async (req, res, next) => {
-      try {
-        const topic = req.body;
-        const data = await controller.addOrUpdateTopic(topic);
-        res.json(data);
-      } catch (err) {
-        return next(err);
-      }
-    })
-    .delete(async (req, res, next) => {
-      try {
-        const id = req.body._id;
-        await controller.deleteTopic(id);
-        res.json(id);
-      } catch (err) {
-        return next(err);
-      }
-    });
-  app.route("/topic/:id").get(async (req, res, next) => {
-    try {
-      const category_id = req.params.id;
-      const data = await controller.getTopic(category_id);
-      res.json(data);
-    } catch (err) {
-      return next(err);
-    }
-  });
+    // This API is used to get all topics of all categories
+    .get(loginRequired, controller.getTopics)
+    // This API is used to add or update topics
+    .post(loginRequired, controller.addOrUpdateTopic)
+    // This API is used to delete topics of specific category
+    .delete(loginRequired, controller.deleteTopic);
+  app
+    .route("/topic/:id")
+    // This API is used to get details of specific category
+    .get(controller.getTopic);
 };
 
 export default routes;

@@ -31,3 +31,21 @@ Add new file .babelrc and paste below content:
 
 update npm start to:
 nodemon ./src/server.js --exec babel-node
+
+# esmodule is used.
+
+require statements are replaced by import
+
+# Register routes in modular approach
+
+app is pased to routes file to register routes.
+
+# Separation of Concern
+
+Fetching data from business logic has been put in controller
+and rotes files has only registration of function and APIs routes.
+
+# Secure API
+
+1. Implement User managment. use bycrypt for hashing password.
+   npm i bcrypt jsonwebtoken

@@ -1,31 +1,36 @@
 import mongoose from "mongoose";
-import nodeSchema from "./nodeSchema.js";
+import { CategorySchema } from "./categoryModel.js";
 import { ObjectId } from "bson";
 
-const Category = mongoose.model("Category", nodeSchema);
+const Category = mongoose.model("Category", CategorySchema);
 
 class CategoryController {
   constructor(url) {}
-  async getCategories() {
+  getCategories = async (req, res, next) => {
     try {
       const data = await Category.find().sort({ path: 1 });
-      return data;
+      res.json(data);
     } catch (err) {
-      throw new Error(err);
+      return next(err);
     }
-  }
-  async getCategory(path) {
+  };
+  getCategory = async (req, res, next) => {
     try {
-      const regexPath = new RegExp(`^${path}`);
-      const nodePath = `/,.NET,.NET Framework,/`;
-      const data = await Category.find({ path: { $regex: regexPath } });
-      return data;
+      const category_id = new ObjectId(req.params.id);
+      const node = await Category.findOne({ _id: category_id });
+      if (node) {
+        const regexPath = new RegExp(`^${node.path}`);
+        const data = await Category.find({ path: { $regex: regexPath } });
+        res.json(data);
+      } else return next("Category Not Found");
     } catch (err) {
-      throw new Error(err);
+      return next(err);
     }
-  }
-  async updateCategory(category) {
+  };
+  updateCategory = async (req, res, next) => {
     try {
+      const category = req.body;
+      category.category_id = new ObjectId(req.params.id);
       const node = await Category.findOne({ _id: ObjectId(category._id) });
       if (node) {
         node.name = category.name;
@@ -33,30 +38,43 @@ class CategoryController {
           { _id: ObjectId(category._id) },
           { $set: node }
         );
-      } else throw new Error("Not found");
+        res.json(node);
+      } else return next("Category Not found");
     } catch (err) {
-      throw new Error(err);
+      return next(err);
     }
-  }
-  async createCategory(category) {
-    let newPath;
-    if (category.path) newPath = `${category.path}/`;
-    else newPath = category.path;
-    const newCategory = new Category({ name: category.name, path: newPath });
-    await newCategory.save();
-    return newCategory;
-  }
-  async deleteCategoryandDescendants(id) {
-    const node = await Category.findOne({ _id: new ObjectId(id) });
-    if (!node) return;
-
-    const childIds = node.children || [];
-    await Category.deleteOne({ _id: new ObjectId(id) });
-
-    for (const childId of childIds) {
-      await deleteCategoryandDescendants(childId);
+  };
+  createCategory = async (req, res, next) => {
+    try {
+      const category = req.body;
+      const newCategory = new Category({
+        name: category.name,
+        path: category.path,
+      });
+      await newCategory.save();
+      res.json(newCategory);
+    } catch (err) {
+      return next(err);
     }
-  }
+  };
+  deleteCategoryandDescendants = async (req, res, next) => {
+    try {
+      const id = req.body._id;
+      const node = await Category.findOne({ _id: new ObjectId(id) });
+      if (!node) return next("Category Not Found");
+      else {
+        const childIds = node.children || [];
+        await Category.deleteOne({ _id: new ObjectId(id) });
+
+        for (const childId of childIds) {
+          await deleteCategoryandDescendants(childId);
+        }
+        res.json(id);
+      }
+    } catch (err) {
+      return next(err);
+    }
+  };
 }
 
 export default CategoryController;
