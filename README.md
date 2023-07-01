@@ -49,3 +49,7 @@ and rotes files has only registration of function and APIs routes.
 
 1. Implement User managment. use bycrypt for hashing password.
    npm i bcrypt jsonwebtoken
+
+# Logging
+
+use bunyan as it logs asynchronously.

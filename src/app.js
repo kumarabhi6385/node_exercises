@@ -7,6 +7,8 @@ import { fileURLToPath } from "url";
 import jwt from "jsonwebtoken";
 import config from "../config.js";
 
+const log = config.logger;
+
 const __filename = fileURLToPath(import.meta.url);
 
 const __dirname = path.dirname(__filename);
@@ -64,9 +66,9 @@ app.use((req, res) => {
 
 // return page not found error
 app.use((err, req, res, next) => {
-  console.log("In middleware");
+  log.info("In middleware defined globally");
   if (err) {
-    console.log(err);
+    log.info(err);
     res
       .status(500)
       .sendFile(path.resolve(__dirname, "../client/html/error.html"));
